@@ -2,12 +2,11 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import PlaylistList from "./components/PlaylistList";
 import Home from "./pages/Home";
+import Playlist from "./pages/Playlist";
 
 function App() {
   return (
@@ -15,8 +14,11 @@ function App() {
         <Navbar/>
         <div className="container mt-5">
           <Switch>
-            <Route path='/'>
+            <Route path='/' exact>
               <Home/>
+            </Route>
+            <Route path='/playlist/:id'>
+                <Playlist/>
             </Route>
           </Switch>
         </div>
