@@ -1,10 +1,12 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import * as firebase from "firebase";
+import {SongsContext} from "../context/songs/songsContext";
 
-function AddSong({addSong}) {
+function AddSong() {
     const [songTitle, setSongTitle] = useState('');
-    const [loading, setLoading] = useState(false);
     const [file, setFile] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const {addSong} = useContext(SongsContext);
     function handleSubmit(e) {
         e.preventDefault();
         setLoading(true);

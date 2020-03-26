@@ -1,9 +1,9 @@
-import React from "react";
+import React, {Fragment} from "react";
 import Song from "./Song";
 
-function SongList({songs, updateSong, deleteSong}) {
+function Songs({songs}) {
     return (
-        <div>
+        <Fragment>
             {songs.map(s => {
                 const song = {
                     id: s.id,
@@ -11,11 +11,11 @@ function SongList({songs, updateSong, deleteSong}) {
                     src: s.src
                 };
                 return (
-                    <Song song={song} updateSong={updateSong} deleteSong={deleteSong} key={song.id}/>
+                    <Song song={song} key={song.id}/>
                 )
             })}
-        </div>
+        </Fragment>
     )
 }
 
-export default SongList;
+export default Songs;

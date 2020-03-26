@@ -1,60 +1,21 @@
-import React, {useState, useEffect} from "react";
-import {useParams} from 'react-router-dom';
-import * as firebase from "firebase";
-import SongList from "../components/SongList";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useEffect, useContext} from "react";
+import Songs from "../components/Songs";
 import AddSong from "../components/AddSong";
 import Loader from "../components/Loader";
+import {SongsContext} from "../context/songs/songsContext";
 
 function Playlist() {
-    const {id} = useParams();
-    const [songs, setSongs] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const {loading, songs, fetchSongs} = useContext(SongsContext);
     useEffect(() => {
-        setLoading(true);
-        fetchSongs(id);
-    }, [id]);
-
-    function fetchSongs(id) {
-        firebase.database().ref('/playlists/' + id + '/songs').once('value').then(function (snapshot) {
-            const data = snapshot.val();
-            data && setSongs(Object.keys(data).map(key => {
-                return {
-                    id: key,
-                    title: data[key].title,
-                    src: data[key].src
-                };
-            }).reverse());
-            setLoading(false);
-        });
-    }
-
-    function addSong(title, src) {
-        const newSongRef = firebase.database().ref('/playlists/' + id + '/songs').push();
-        newSongRef.set({
-            title,
-            src
-        }).then(() => {
-            setSongs([{id: newSongRef.key, title, src}, ...songs]);
-        })
-    }
-
-    function updateSong(songId, title) {
-        firebase.database().ref('/playlists/' + id + '/songs/' + songId).update({title}).then(() => {
-            setSongs(songs.map(song => song.id === songId ? {...song, title} : song));
-        });
-    }
-
-    function deleteSong(songId) {
-        firebase.database().ref('/playlists/' + id + '/songs/' + songId).remove().then(() => {
-            setSongs(songs.filter(song => song.id !== songId));
-        });
-    }
+        fetchSongs();
+    }, []);
 
     return (
         <div>
-            <AddSong addSong={addSong}/>
+            <AddSong/>
             {loading ? <Loader/> : songs.length ?
-                <SongList songs={songs} updateSong={updateSong} deleteSong={deleteSong}/>
+                <Songs songs={songs}/>
                 :
                 <p className="text-center">You don't have songs</p>
             }

@@ -1,7 +1,9 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
+import {PlaylistsContext} from "../context/playlists/playlistsContext";
 
-function AddPlaylist({addPlaylist}) {
+function AddPlaylist() {
     const [playlistTitle, setPlaylistTitle] = useState('');
+    const {addPlaylist} = useContext(PlaylistsContext);
     function handleSubmit(e) {
         e.preventDefault();
         addPlaylist(playlistTitle);

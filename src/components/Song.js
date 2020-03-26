@@ -1,9 +1,11 @@
-import React from "react";
+import React, {useContext, Fragment} from "react";
 import Modal from "./Modal";
+import {SongsContext} from "../context/songs/songsContext";
 
-function Song({song, updateSong, deleteSong}) {
+function Song({song}) {
+    const {updateSong, deleteSong} = useContext(SongsContext);
     return (
-        <div>
+        <Fragment>
             <div className="row p-3 song mb-3">
                 <div className="col-md-6 col-12 d-flex align-items-center">
                     <h5>{song.title}</h5>
@@ -30,7 +32,7 @@ function Song({song, updateSong, deleteSong}) {
                 </div>
             </div>
             <Modal id={song.id} title={song.title} modalTitle="Update song" onUpdate={updateSong}/>
-        </div>
+        </Fragment>
 
     )
 }

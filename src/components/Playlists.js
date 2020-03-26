@@ -1,19 +1,19 @@
-import React from "react";
-import Loader from "./Loader";
+import React, {useContext} from "react";
 import Modal from "./Modal";
 import {Link} from "react-router-dom";
+import {PlaylistsContext} from "../context/playlists/playlistsContext";
 
-function PlaylistList({playlists, loading, onRemove, onUpdate}) {
-
+function Playlists({playlists}) {
+    const {updatePlaylist, deletePlaylist} = useContext(PlaylistsContext);
     return (
-             <div className="row row-cols-1 row-cols-md-2">
-                    {playlists.map((playlist, index) => {
+             <div className="row row-cols-1 row-cols-md-3">
+                    {playlists.map(playlist => {
                         return (
                             <div key={playlist.id} className="playlist">
                                 <Link to={'/playlist/' + playlist.id}>
                                     <div className="col mb-4">
                                         <div className="card">
-                                            <img src="./images/playlist_bg.jpg" className="card-img-top" alt="..."/>
+                                            <img src={playlist.src} className="card-img-top" alt="..." height="200px"/>
                                             <div className="card-body">
                                                 <h5 className="card-title">{playlist.title}</h5>
                                                 <button
@@ -27,12 +27,12 @@ function PlaylistList({playlists, loading, onRemove, onUpdate}) {
                                                 </button>
                                                 <button
                                                     className="btn btn-danger"
-                                                    onClick={(e) => {e.preventDefault(); onRemove(playlist.id);}}>Delete</button>
+                                                    onClick={(e) => {e.preventDefault(); deletePlaylist(playlist.id);}}>Delete</button>
                                             </div>
                                         </div>
                                     </div>
                                 </Link>
-                                <Modal id={playlist.id} title={playlist.title} modalTitle="Update playlist" onUpdate={onUpdate}/>
+                                <Modal id={playlist.id} title={playlist.title} modalTitle="Update playlist" onUpdate={updatePlaylist}/>
                             </div>
                             )
                     })
@@ -41,4 +41,4 @@ function PlaylistList({playlists, loading, onRemove, onUpdate}) {
     )
 }
 
-export default PlaylistList;
+export default Playlists;
